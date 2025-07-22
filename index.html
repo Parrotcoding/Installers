@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Download MenuMonitor</title>
+  <title>Install MenuMonitor</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       background: #f4f6fc;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      justify-content: center;
+      padding: 2rem;
+      min-height: 100vh;
       margin: 0;
     }
 
@@ -24,6 +26,7 @@
       flex-direction: column;
       align-items: center;
       gap: 1.5rem;
+      max-width: 500px;
     }
 
     .title {
@@ -52,6 +55,30 @@
     .download-button:hover {
       background-color: #005fcc;
     }
+
+    .instructions {
+      margin-top: 2rem;
+      background: #eef2ff;
+      border-radius: 32px;
+      padding: 2rem;
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .instructions strong {
+      color: #000;
+    }
+
+    .steps {
+      margin: 1rem 0 0 1rem;
+      padding-left: 1rem;
+    }
+
+    .steps li {
+      margin-bottom: 0.6rem;
+    }
   </style>
 </head>
 <body>
@@ -59,5 +86,41 @@
     <div class="title">🚀 Install MenuMonitor</div>
     <a class="download-button" href="Install%20Menumonitor.dmg" download>Download for macOS (.dmg)</a>
   </div>
+
+  <div class="instructions" id="guide">
+    <!-- Filled dynamically by JavaScript -->
+  </div>
+
+  <script>
+    const guide = document.getElementById('guide');
+    const ua = navigator.userAgent;
+    const isNewSettings = (() => {
+      const match = ua.match(/Mac OS X (\d+)_/);
+      if (!match) return true; // Default to new
+      const major = parseInt(match[1], 10);
+      return major >= 13; // macOS Ventura (13) and up
+    })();
+
+    guide.innerHTML = isNewSettings ? `
+      <strong>Having trouble opening the app?</strong><br>
+      If macOS shows: <em>"Apple cannot check it for malicious software"</em>, follow these steps for newer macOS versions (Ventura, Sonoma, Sequoia):
+      <ol class="steps">
+        <li>Open <strong>System Settings</strong> → <strong>Privacy & Security</strong>.</li>
+        <li>Scroll down to the section that says <strong>"Install Menumonitor was blocked"</strong>.</li>
+        <li>Click <strong>Allow Anyway</strong>.</li>
+        <li>Try opening the app again, then click <strong>Open</strong> when prompted.</li>
+      </ol>
+    ` : `
+      <strong>Having trouble opening the app?</strong><br>
+      If macOS shows: <em>"Apple cannot check it for malicious software"</em>, follow these steps for older macOS versions (Monterey and earlier):
+      <ol class="steps">
+        <li>Open <strong>System Preferences</strong> → <strong>Security & Privacy</strong>.</li>
+        <li>Under the <strong>General</strong> tab, you'll see a message about <strong>"Install Menumonitor was blocked"</strong>.</li>
+        <li>Click the <strong>lock icon</strong> in the bottom left corner and enter your password to allow changes.</li>
+        <li>Click <strong>Allow Anyway</strong>.</li>
+        <li>Try opening the app again, then click <strong>Open</strong> when prompted.</li>
+      </ol>
+    `;
+  </script>
 </body>
 </html>
